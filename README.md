@@ -45,8 +45,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ### CUDA Toolkit
 
-
-
 ```
 wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run
 sudo sh cuda_10.2.89_440.33.01_linux.run
@@ -147,3 +145,44 @@ Wed Jul  8 17:15:52 2020
 |=============================================================================|
 +-----------------------------------------------------------------------------+
 ```
+
+### NVIDIA docker runtime
+
+https://github.com/NVIDIA/nvidia-container-runtime#docker-engine-setup
+
+```
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo tee /etc/systemd/system/docker.service.d/override.conf <<EOF
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --host=fd:// --add-runtime=nvidia=/usr/bin/nvidia-container-runtime
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+Daemon config file
+
+```
+sudo tee /etc/docker/daemon.json <<EOF
+{
+    "runtimes": {
+        "nvidia": {
+            "path": "/usr/bin/nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    },
+    "default-runtime": "nvidia"
+}
+EOF
+sudo pkill -SIGHUP dockerd
+```
+
+==> BREAKS!!
+
+```
+docker run --gpus all --runtime=nvidia nvidia/cuda:10.2-cudnn7-devel nvidia-smi
+docker: Error response from daemon: OCI runtime create failed: unable to retrieve OCI runtime error (open /run/containerd/io.containerd.runtime.v1.linux/moby/317ca706a6352eb3e000feffc02183b9e3fea14c571b9976993f0c8b6cfce171/log.json: no such file or directory): fork/exec /usr/bin/nvidia-container-runtime: no such file or directory: unknown.
+```
+
+
