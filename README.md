@@ -171,6 +171,42 @@ The following packages have unmet dependencies:
 E: Unable to correct problems, you have held broken packages.
 ```
 
+Added gpgkey
+```
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | sudo apt-key add -
+sudo apt-get update
+```
+--> output
+```
+Hit:1 http://ch.archive.ubuntu.com/ubuntu bionic InRelease
+Hit:2 http://ch.archive.ubuntu.com/ubuntu bionic-updates InRelease                                                                             
+Hit:3 http://ch.archive.ubuntu.com/ubuntu bionic-backports InRelease                                                                           
+Hit:4 http://security.ubuntu.com/ubuntu bionic-security InRelease                                                                              
+Hit:5 http://packages.microsoft.com/repos/vscode stable InRelease                                                                          
+Get:6 https://nvidia.github.io/libnvidia-container/stable/ubuntu18.04/amd64  InRelease [1'146 B]                     
+Hit:7 https://nvidia.github.io/nvidia-container-runtime/ubuntu18.04/amd64  InRelease
+Hit:8 https://nvidia.github.io/nvidia-docker/ubuntu18.04/amd64  InRelease      
+Reading package lists... Done
+E: Repository 'https://nvidia.github.io/libnvidia-container/stable/ubuntu18.04/amd64  InRelease' changed its 'Origin' value from 'https://nvidia.github.io/libnvidia-container' to 'https://nvidia.github.io/libnvidia-container/stable'
+N: This must be accepted explicitly before updates for this repository can be applied. See apt-secure(8) manpage for details.
+W: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:3 and /etc/apt/sources.list.d/nvidia-docker.list:3
+W: Target Translations (en_US) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:3 and /etc/apt/sources.list.d/nvidia-docker.list:3
+W: Target Translations (en) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:3 and /etc/apt/sources.list.d/nvidia-docker.list:3
+W: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:1 and /etc/apt/sources.list.d/nvidia-docker.list:1
+W: Target Translations (en_US) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:1 and /etc/apt/sources.list.d/nvidia-docker.list:1
+W: Target Translations (en) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:1 and /etc/apt/sources.list.d/nvidia-docker.list:1
+W: Target Packages (Packages) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:3 and /etc/apt/sources.list.d/nvidia-docker.list:3
+W: Target Translations (en_US) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:3 and /etc/apt/sources.list.d/nvidia-docker.list:3
+W: Target Translations (en) is configured multiple times in /etc/apt/sources.list.d/nvidia-container-runtime.list:3 and /etc/apt/sources.list.d/nvidia-docker.list:3
+```
+
+Retry
+```
+sudo apt-get --allow-releaseinfo-change update
+sudo apt-get install nvidia-container-runtime
+```
+--> install ok
+
 
 https://github.com/NVIDIA/nvidia-container-runtime#docker-engine-setup
 
