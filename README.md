@@ -148,6 +148,30 @@ Wed Jul  8 17:15:52 2020
 
 ### NVIDIA docker runtime
 
+```
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | sudo apt-key add -
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.list | sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
+sudo apt-get update
+sudo apt-get install nvidia-container-runtime
+```
+==> BROKEN
+```
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ nvidia-container-runtime : Depends: nvidia-container-toolkit (>= 1.2.0) but 1.1.2-1 is to be installed
+E: Unable to correct problems, you have held broken packages.
+```
+
+
 https://github.com/NVIDIA/nvidia-container-runtime#docker-engine-setup
 
 ```
@@ -178,7 +202,7 @@ EOF
 sudo pkill -SIGHUP dockerd
 ```
 
-==> BREAKS!!
+==> BROKEN due to missing runtime!!
 
 ```
 docker run --gpus all --runtime=nvidia nvidia/cuda:10.2-cudnn7-devel nvidia-smi
