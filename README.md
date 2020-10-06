@@ -245,4 +245,13 @@ docker run --gpus all --runtime=nvidia nvidia/cuda:10.2-cudnn7-devel nvidia-smi
 docker: Error response from daemon: OCI runtime create failed: unable to retrieve OCI runtime error (open /run/containerd/io.containerd.runtime.v1.linux/moby/317ca706a6352eb3e000feffc02183b9e3fea14c571b9976993f0c8b6cfce171/log.json: no such file or directory): fork/exec /usr/bin/nvidia-container-runtime: no such file or directory: unknown.
 ```
 
+Final config files:
+
+/etc/systemd/system/docker.service.d/override.conf
+
+```
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --host=fd:// -H tcp:0.0.0.0:2375 --add-runtime=nvidia=/usr/bin/nvidia-container-runtime
+```
 
